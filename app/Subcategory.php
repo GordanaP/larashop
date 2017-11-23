@@ -2,10 +2,10 @@
 
 namespace App;
 
-use App\Observers\CategoryObserver;
+use App\Observers\SubcategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Subcategory extends Model
 {
     protected $fillable = ['name'];
 
@@ -13,7 +13,7 @@ class Category extends Model
     {
         parent::boot();
 
-        return static::observe(CategoryObserver::class);
+        return static::observe(SubcategoryObserver::class);
     }
 
     public function getRouteKeyName()
@@ -21,8 +21,8 @@ class Category extends Model
         return 'slug';
     }
 
-    public function subcategories()
+    public function category()
     {
-        return $this->hasMany(Subcategory::class);
+        return $this->belongsTo(Category::class);
     }
 }
