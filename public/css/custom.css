@@ -2,5 +2,11 @@ body {background: #fff !important}
 .container{ width: 92% !important }
 .navbar-top { background: #eeeeee !important; margin-bottom: 0 !important;}
 .navbar-bottom {margin-bottom: 21px;}
-.navbar-top ul li a, .navbar-bottom ul li a { color: #000 !important}
-h1.main-title{margin-bottom: 18px;}
+h1.main-title{margin: 25px 0; font-size: 42px;}
+
+.navbar-default .navbar-nav>.active { background: #999}
+.navbar-default .navbar-nav>.active>a { color: #fff!important;}
+.navbar-default .navbar-nav>.active>a:focus { color: #d6220e !important;}
+.navbar-default .navbar-nav>ul>li>a { color: #000 !important}
+
+.list-group.sidebar a.list-group-item:hover{color: #d6220e !important; background: none; text-decoration: underline;}

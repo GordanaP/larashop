@@ -54,16 +54,24 @@
     </div>
 </nav>
 
-<h1 class="text-center main-title">THE LARASHOP</h1>
+<h1 class="text-center main-title text-uppercase">The LaraShop</h1>
 
 <nav class="navbar navbar-default navbar-bottom">
     <div class="container">
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="{{ route('products.index') }}">SHOP</a>
-                </li>
-            </ul>
+            <div class=" flex justify-between">
+                <div></div>
+                <ul class="nav navbar-nav">
+                    @foreach ($categories as $category)
+                    <li class="{{ set_active('products/'.$category->slug) }}">
+                        <a href="{{ route('products.index', $category) }}" class="text-uppercase">
+                            {{ $category->name }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+                <div></div>
+            </div>
         </div>
     </div>
 </nav>
