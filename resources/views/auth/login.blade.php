@@ -1,8 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
-@section('content')
-<div class="container">
-    <div class="row">
+@section('links')
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+@endsection
+
+@section('app_content')
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
@@ -64,6 +66,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 @endsection

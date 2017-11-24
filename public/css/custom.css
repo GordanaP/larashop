@@ -1,0 +1,6 @@
+body {background: #fff !important}
+.container{ width: 92% !important }
+.navbar-top { background: #eeeeee !important; margin-bottom: 0 !important;}
+.navbar-bottom {margin-bottom: 21px;}
+.navbar-top ul li a, .navbar-bottom ul li a { color: #000 !important}
+h1.main-title{margin-bottom: 18px;}

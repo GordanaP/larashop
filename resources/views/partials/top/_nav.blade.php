@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top navbar-top">
     <div class="container">
         <div class="navbar-header">
 
@@ -12,7 +12,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                LaraShop
             </a>
         </div>
 
@@ -49,6 +49,20 @@
                         </ul>
                     </li>
                 @endguest
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<h1 class="text-center main-title">THE LARASHOP</h1>
+
+<nav class="navbar navbar-default navbar-bottom">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{ route('products.index') }}">SHOP</a>
+                </li>
             </ul>
         </div>
     </div>

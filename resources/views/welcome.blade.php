@@ -1,6 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
+@section('links')
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+@endsection
 
-@section('content')
-    <h1>Welcome to Larashop</h1>
+@section('app_content')
+    <div class="container">
+        <img src="{{ asset('images/fashion.jpg') }}" alt="" class="image">
+    </div>
 @endsection

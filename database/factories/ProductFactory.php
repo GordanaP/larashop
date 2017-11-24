@@ -9,7 +9,7 @@ $factory->define(App\Product::class, function (Faker $faker) {
             return Subcategory::all()->random();
         },
         'name' => $faker->sentence(2),
-        'description' => $faker->paragraph(2),
-        'price' => $faker->numberBetween(1000-10000)
+        'description' => $faker->sentence,
+        'price' => $faker->numberBetween($min = 1000, $max = 9000)
     ];
 });
