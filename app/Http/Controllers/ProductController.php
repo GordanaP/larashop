@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Filters\Product\ProductFilters;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -13,16 +14,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category = null)
+    public function index(Category $category, ProductFilters $filters)
     {
-        if($category)
-        {
-            $products = $category->products;
-        }
-        else
-        {
-            $products = Product::all();
-        }
+        $ids = $category->products->pluck('id');
+
+        $products = Product::whereIn('id', $ids)->filter($filters)->get();
 
         return view('products.index', compact('products', 'category'));
     }

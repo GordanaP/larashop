@@ -31,4 +31,8 @@ class Product extends Model
         return round($value/100);
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
 }
