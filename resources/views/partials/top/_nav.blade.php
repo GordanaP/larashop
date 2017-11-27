@@ -63,11 +63,11 @@
                 <div></div>
                 <ul class="nav navbar-nav">
                     @foreach ($categories as $category)
-                    <li class="{{ set_active('products/'.$category->slug) }}">
-                        <a href="{{ route('products.index', $category) }}" class="text-uppercase">
-                            {{ $category->name }}
-                        </a>
-                    </li>
+                        <li class="{{ set_active('products/'.$category->slug) }}">
+                            <a href="{{ route('products.index', $category) }}" class="text-uppercase">
+                                {{ $category->name }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
                 <div></div>

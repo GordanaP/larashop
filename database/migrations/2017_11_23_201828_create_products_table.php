@@ -19,6 +19,9 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('subcategory_id')->index();
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
 
+            $table->unsignedInteger('brand_id')->index()->nullable();
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+
             $table->string('name');
             $table->string('slug');
             $table->text('description');

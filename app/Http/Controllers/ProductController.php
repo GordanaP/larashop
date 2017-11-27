@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\{Brand, Category, Product};
 use App\Filters\Product\ProductFilters;
-use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+    * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Category $category, ProductFilters $filters)
     {
-        $ids = $category->products->pluck('id');
+        $product_ids = $category->products->pluck('id');
+        $products = Product::whereIn('id', $product_ids)->filter($filters)->paginate(8);
 
-        $products = Product::whereIn('id', $ids)->filter($filters)->get();
+        $brand_ids = $category->products->pluck('brand_id');
+        $brands = Brand::whereIn('id', $brand_ids)->get();
 
-        return view('products.index', compact('products', 'category'));
+        return view('products.index', compact('products', 'category', 'brands'));
     }
 
     /**
@@ -87,5 +88,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    /**
+    * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function category(Category $category)
+    {
+        $products = $category->products;
+        $subcategories = $category->subcategories;
+
+        return view('products.category', compact('products', 'subcategories'));
     }
 }
