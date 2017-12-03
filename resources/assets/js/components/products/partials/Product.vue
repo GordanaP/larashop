@@ -2,7 +2,7 @@
     <div class="product">
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail" style="border:none; height: 400px">
-                <img src="/images/products/mascara.jpg" alt="product.name" class="image" style="min-height:150px; height:230px;">
+                <img src="/images/products/mascara.jpg" :alt="product.name" class="image" style="min-height:150px; height:230px;">
                 <div class="caption text-center">
                     <h5 class="text-uppercase">{{ product.name }}</h5>
                     <p>{{ product.description }}</p>

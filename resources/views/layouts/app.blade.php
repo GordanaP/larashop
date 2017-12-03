@@ -7,14 +7,9 @@
 
         @yield('breadcrumbs')
 
-        <div class="col-md-3">
-            @yield('sidebar')
-        </div>
+        <router-view></router-view>
 
-        <div class="col-md-9">
-            <router-view></router-view>
-            @yield('content')
-        </div>
+        @yield('content')
 
     </div>
 

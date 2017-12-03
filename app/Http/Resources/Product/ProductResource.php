@@ -18,9 +18,9 @@ class ProductResource extends Resource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
-            'subacategory' => $this->subcategory->name,
-            'category' => $this->subcategory->category->name,
-            'brand' => $this->brand->name,
+            'subacategory' => $this->subcategory->formatted_name,
+            'category' => $this->subcategory->category->formatted_name,
+            'brand' => $this->brand->formatted_name,
         ];
     }
 }

@@ -31,7 +31,7 @@ class Subcategory extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function getNameFormattedAttribute()
+    public function getFormattedNameAttribute()
     {
         return ucwords($this->name);
     }

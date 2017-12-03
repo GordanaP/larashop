@@ -21,6 +21,6 @@ class ProductController extends Controller
     {
         $subcat_ids = $category->subcategories->pluck('id');
 
-        return new ProductCollection(Product::with('subcategory', 'subcategory.category')->whereIn('subcategory_id', $subcat_ids)->filter($filters)->get());
+        return new ProductCollection(Product::with('subcategory', 'subcategory.category')->whereIn('subcategory_id', $subcat_ids)->filter($filters)->paginate(8));
     }
 }

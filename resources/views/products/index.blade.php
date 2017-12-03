@@ -8,8 +8,3 @@
         <li class="active text-uppercase">{{ $category->name }}</li>
     </ol>
 @endsection
-
-@section('sidebar')
-
-@endsection
-

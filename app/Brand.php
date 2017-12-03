@@ -25,4 +25,10 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function getFormattedNameAttribute()
+    {
+        return ucwords($this->name);
+    }
+
 }
