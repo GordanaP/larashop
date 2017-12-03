@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\{Brand, Category, Product};
+use App\Product;
+use App\Category;
 use App\Filters\Product\ProductFilters;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
-        return view('products.index');
+        return view('products.index', compact('category'));
     }
 
     /**
@@ -84,16 +85,4 @@ class ProductController extends Controller
         //
     }
 
-    /**
-    * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function category(Category $category)
-    {
-        $products = $category->products;
-        $subcategories = $category->subcategories;
-
-        return view('products.category', compact('products', 'subcategories'));
-    }
 }

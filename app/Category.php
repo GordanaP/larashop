@@ -23,6 +23,11 @@ class Category extends Model
         return 'slug';
     }
 
+    public function getFormattedNameAttribute()
+    {
+        return ucwords($this->name);
+    }
+
     public function subcategories()
     {
         return $this->hasMany(Subcategory::class);

@@ -16,6 +16,7 @@ class ProductResource extends Resource
     {
         return [
             'name' => $this->name,
+            'description' => $this->description,
             'price' => $this->price,
             'subacategory' => $this->subcategory->name,
             'category' => $this->subcategory->category->name,
