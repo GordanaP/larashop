@@ -13,15 +13,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category, ProductFilters $filters)
+    public function index()
     {
-        $product_ids = $category->products->pluck('id');
-        $products = Product::whereIn('id', $product_ids)->filter($filters)->paginate(8);
-
-        $brand_ids = $category->products->pluck('brand_id');
-        $brands = Brand::whereIn('id', $brand_ids)->get();
-
-        return view('products.index', compact('products', 'category', 'brands'));
+        return view('products.index');
     }
 
     /**

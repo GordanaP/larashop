@@ -17,6 +17,9 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+import router from './routes.js'
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router
 });
