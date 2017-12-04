@@ -45602,12 +45602,12 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Product_vue__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_Product_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_Filters_vue__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__partials_Filters_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__partials_Filters_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_Pagination_vue__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__pagination_Pagination_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Filters_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__partials_Filters_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__partials_Filters_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Product_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_Product_vue__);
 //
 //
 //
@@ -45631,7 +45631,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        Product: __WEBPACK_IMPORTED_MODULE_0__partials_Product_vue___default.a, Pagination: __WEBPACK_IMPORTED_MODULE_2__pagination_Pagination_vue___default.a, Filters: __WEBPACK_IMPORTED_MODULE_1__partials_Filters_vue___default.a
+        Filters: __WEBPACK_IMPORTED_MODULE_0__partials_Filters_vue___default.a,
+        Pagination: __WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue___default.a,
+        Product: __WEBPACK_IMPORTED_MODULE_2__partials_Product_vue___default.a
     },
     data: function data() {
         return {
@@ -45647,7 +45649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        // land on the selected page on reload
+        // land on the current page after reloading
         getProducts: function getProducts() {
             var _this = this;
 
@@ -46655,6 +46657,16 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -46672,8 +46684,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['endpoint'],
     data: function data() {
         return {
-            filters: {}
+            filters: {},
+            selectedFilters: {}
         };
+    },
+
+    methods: {
+        activateFilter: function activateFilter(filter, key) {
+            this.selectedFilters = Object.assign({}, this.selectedFilters, _defineProperty({}, filter, key));
+            this.updateQueryString();
+        },
+        updateQueryString: function updateQueryString() {
+            this.$router.replace({
+                query: _extends({}, this.selectedFilters)
+            });
+        }
     },
     mounted: function mounted() {
         var _this = this;
@@ -46695,31 +46720,45 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "filters" },
-    _vm._l(_vm.filters, function(map, filtername) {
-      return _c(
-        "div",
-        { staticClass: "list-group" },
-        [
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item text-uppercase",
-              attrs: { href: "#" }
-            },
-            [_vm._v(_vm._s(filtername))]
-          ),
-          _vm._v(" "),
-          _vm._l(map, function(key, value) {
-            return _c(
+    [
+      _vm._v("\n    " + _vm._s(_vm.selectedFilters) + "\n    "),
+      _vm._v(" "),
+      _vm._l(_vm.filters, function(map, filter) {
+        return _c(
+          "div",
+          { staticClass: "list-group" },
+          [
+            _c(
               "a",
-              { staticClass: "list-group-item", attrs: { href: "#" } },
-              [_vm._v("\n            " + _vm._s(value) + "\n        ")]
-            )
-          })
-        ],
-        2
-      )
-    })
+              {
+                staticClass: "list-group-item text-uppercase",
+                attrs: { href: "#" }
+              },
+              [_vm._v("\n            " + _vm._s(filter) + "\n        ")]
+            ),
+            _vm._v(" "),
+            _vm._l(map, function(key, value) {
+              return _c(
+                "a",
+                {
+                  staticClass: "list-group-item",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.activateFilter(filter, key)
+                    }
+                  }
+                },
+                [_vm._v("\n            " + _vm._s(value) + "\n        ")]
+              )
+            })
+          ],
+          2
+        )
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []

@@ -15,13 +15,15 @@
 </template>
 
 <script>
-    import Product from './partials/Product.vue'
     import Filters from './partials/Filters.vue'
     import Pagination from '../pagination/Pagination.vue'
+    import Product from './partials/Product.vue'
 
     export default {
         components: {
-            Product, Pagination, Filters
+            Filters,
+            Pagination,
+            Product
         },
         data(){
             return {
@@ -36,7 +38,7 @@
             }
         },
         methods: {
-            // land on the selected page on reload
+            // land on the current page after reloading
             getProducts(page = this.$route.query.page) {
                 axios.get(('/api/products/' + this.$route.params.category), {
                     params: {
