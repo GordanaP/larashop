@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="products">
         <div class="row">
             <div class="col-md-3">
-                Filters
+                <filters :endpoint="filtersUrl"></filters>
             </div>
             <div class="col-md-9">
                 <div class="text-center">
@@ -16,16 +16,18 @@
 
 <script>
     import Product from './partials/Product.vue'
+    import Filters from './partials/Filters.vue'
     import Pagination from '../pagination/Pagination.vue'
 
     export default {
         components: {
-            Product, Pagination
+            Product, Pagination, Filters
         },
         data(){
             return {
                 products: [],
-                meta: {}
+                meta: {},
+                filtersUrl: '/api/products/' + this.$route.params.category + '/filters'
             }
         },
         watch: {

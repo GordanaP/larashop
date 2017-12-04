@@ -116,3 +116,6 @@
     }
 </script>
 
+<style>
+    ul.pagination {margin-top: 0;}
+</style>
