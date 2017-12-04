@@ -45608,6 +45608,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__pagination_Pagination_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Product_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__partials_Product_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__partials_Product_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45644,8 +45653,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     watch: {
-        '$route.query': function $routeQuery(query) {
-            this.getProducts(query.page);
+        '$route.query': {
+            handler: function handler(query) {
+                this.getProducts(1, query);
+            },
+
+            deep: true
+        }
+    },
+    computed: {
+        chunkedItems: function chunkedItems() {
+            return _.chunk(this.products, 3);
         }
     },
     methods: {
@@ -45654,11 +45672,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$route.query.page;
+            var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.$route.query;
 
             axios.get('/api/products/' + this.$route.params.category, {
-                params: {
+                params: _extends({
                     page: page
-                }
+                }, query)
             }).then(function (response) {
                 _this.products = response.data.data;
                 _this.meta = response.data.meta;
@@ -45971,9 +45990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             // Append page querystring to the route
             this.$router.replace({
-                query: {
-                    page: page
-                }
+                query: Object.assign({}, this.$route.query, { page: page })
             });
         },
         pageIsOutOfBounds: function pageIsOutOfBounds(page) {
@@ -46175,23 +46192,33 @@ var render = function() {
         "div",
         { staticClass: "col-md-9" },
         [
-          _c(
-            "div",
-            { staticClass: "text-center" },
-            [
-              _vm.meta.current_page
-                ? _c("pagination", { attrs: { meta: _vm.meta } })
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm._l(_vm.products, function(product) {
-            return _c("product", {
-              key: product.id,
-              attrs: { product: product }
-            })
-          })
+          _vm.products.length > 0
+            ? [
+                _c(
+                  "div",
+                  { staticClass: "text-center" },
+                  [
+                    _vm.meta.current_page
+                      ? _c("pagination", { attrs: { meta: _vm.meta } })
+                      : _vm._e()
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.chunkedItems, function(chunk) {
+                  return _c(
+                    "div",
+                    { staticClass: "row" },
+                    _vm._l(chunk, function(product) {
+                      return _c("product", {
+                        key: product.id,
+                        attrs: { product: product }
+                      })
+                    })
+                  )
+                })
+              ]
+            : [_vm._v("\n                No product found\n            ")]
         ],
         2
       )
@@ -46685,7 +46712,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     data: function data() {
         return {
             filters: {},
-            selectedFilters: {}
+            selectedFilters: _.omit(this.$route.query, ['page'])
         };
     },
 
@@ -46696,7 +46723,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         },
         updateQueryString: function updateQueryString() {
             this.$router.replace({
-                query: _extends({}, this.selectedFilters)
+                query: _extends({}, this.selectedFilters, {
+                    page: 1
+                })
             });
         }
     },
@@ -46720,45 +46749,41 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "filters" },
-    [
-      _vm._v("\n    " + _vm._s(_vm.selectedFilters) + "\n    "),
-      _vm._v(" "),
-      _vm._l(_vm.filters, function(map, filter) {
-        return _c(
-          "div",
-          { staticClass: "list-group" },
-          [
-            _c(
+    _vm._l(_vm.filters, function(map, filter) {
+      return _c(
+        "div",
+        { staticClass: "list-group" },
+        [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item text-uppercase",
+              attrs: { href: "#" }
+            },
+            [_vm._v("\n            " + _vm._s(filter) + "\n        ")]
+          ),
+          _vm._v(" "),
+          _vm._l(map, function(key, value) {
+            return _c(
               "a",
               {
-                staticClass: "list-group-item text-uppercase",
-                attrs: { href: "#" }
-              },
-              [_vm._v("\n            " + _vm._s(filter) + "\n        ")]
-            ),
-            _vm._v(" "),
-            _vm._l(map, function(key, value) {
-              return _c(
-                "a",
-                {
-                  staticClass: "list-group-item",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.activateFilter(filter, key)
-                    }
+                staticClass: "list-group-item",
+                class: { active: _vm.selectedFilters[filter] === key },
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.activateFilter(filter, key)
                   }
-                },
-                [_vm._v("\n            " + _vm._s(value) + "\n        ")]
-              )
-            })
-          ],
-          2
-        )
-      })
-    ],
-    2
+                }
+              },
+              [_vm._v("\n            " + _vm._s(value) + "\n        ")]
+            )
+          })
+        ],
+        2
+      )
+    })
   )
 }
 var staticRenderFns = []

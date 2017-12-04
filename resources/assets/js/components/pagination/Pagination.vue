@@ -90,9 +90,7 @@
 
                 // Append page querystring to the route
                 this.$router.replace({
-                    query: {
-                        page
-                    }
+                    query: Object.assign({}, this.$route.query, {page : page})
                 })
             },
             pageIsOutOfBounds(page)

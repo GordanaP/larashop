@@ -1,12 +1,12 @@
 <template>
     <div class="filters">
-        {{ selectedFilters }}
         <!-- map = slug, name -->
         <div class="list-group" v-for="map, filter in filters">
             <a href="#" class="list-group-item text-uppercase">
                 {{ filter }}
             </a>
             <a href="#" class="list-group-item"
+                :class="{'active' : selectedFilters[filter] === key}"
                 v-for="key, value in map"
                 @click.prevent="activateFilter(filter, key)"
             >
@@ -24,7 +24,7 @@
         data() {
             return {
                 filters: {},
-                selectedFilters: {}
+                selectedFilters: _.omit(this.$route.query, ['page'])
             }
         },
         methods: {
@@ -37,7 +37,8 @@
                 this.$router.replace({
                     query: {
                         // spread the Object above into multipel itens to apply to the query string
-                        ...this.selectedFilters
+                        ...this.selectedFilters,
+                        page : 1
                     }
                 })
             }
