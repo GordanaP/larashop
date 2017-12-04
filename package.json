@@ -19,6 +19,6 @@
     "vue": "^2.5.7"
   },
   "dependencies": {
-    "vue-chunk": "^1.0.0"
+    "vue-router": "^3.0.1"
   }
 }

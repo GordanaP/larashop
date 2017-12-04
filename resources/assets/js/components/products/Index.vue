@@ -5,7 +5,9 @@
                 Filters
             </div>
             <div class="col-md-9">
-                <pagination :meta="meta" v-on:pageSwitched="getCourses"></pagination>
+                <div class="text-center">
+                    <pagination v-if="meta.current_page" :meta="meta"></pagination>
+                </div>
                 <product v-for="product in products" :product="product" :key="product.id"></product>
             </div>
         </div>
@@ -26,9 +28,14 @@
                 meta: {}
             }
         },
+        watch: {
+            '$route.query'(query){
+                this.getProducts(query.page)
+            }
+        },
         methods: {
             // land on the selected page on reload
-            getCourses(page = this.$route.query.page) {
+            getProducts(page = this.$route.query.page) {
                 axios.get(('/api/products/' + this.$route.params.category), {
                     params: {
                         page
@@ -40,7 +47,7 @@
             }
         },
         mounted() {
-            this.getCourses()
+            this.getProducts()
         }
     }
 </script>
