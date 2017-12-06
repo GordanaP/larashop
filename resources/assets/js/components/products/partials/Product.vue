@@ -19,9 +19,5 @@
 <script>
     export default{
         props: ['product'],
-        data() {
-            return {
-            }
-        }
     }
 </script>

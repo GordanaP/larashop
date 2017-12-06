@@ -73,11 +73,6 @@
                 return _.range((this.currentSection - 1) * this.pagesPerSection + 1, this.lastPage + 1)
             }
         },
-        mounted(){
-            if (this.meta.current_page > this.meta.last_page) {
-                this.switched(this.meta.last_page)
-            }
-        },
         methods: {
             switched(page) {
                 // Disable page switch
@@ -110,7 +105,7 @@
             sectionFirstPage(section){
                 return ((section - 1) * this.pagesPerSection) + 1
             }
-        }
+        },
     }
 </script>
 

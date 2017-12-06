@@ -45763,10 +45763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product'],
-    data: function data() {
-        return {};
-    }
+    props: ['product']
 });
 
 /***/ }),
@@ -45972,12 +45969,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return _.range((this.currentSection - 1) * this.pagesPerSection + 1, this.lastPage + 1);
         }
     },
-    mounted: function mounted() {
-        if (this.meta.current_page > this.meta.last_page) {
-            this.switched(this.meta.last_page);
-        }
-    },
-
     methods: {
         switched: function switched(page) {
             // Disable page switch
@@ -46218,7 +46209,9 @@ var render = function() {
                   )
                 })
               ]
-            : [_vm._v("\n                No product found\n            ")]
+            : _vm._e(),
+          _vm._v(" "),
+          [_vm._v("\n                No product found\n            ")]
         ],
         2
       )
@@ -46706,6 +46699,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['endpoint'],
@@ -46716,25 +46722,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         };
     },
 
+    computed: {
+        filtersInUse: function filtersInUse() {
+            return !_.isEmpty(this.selectedFilters);
+        }
+    },
     methods: {
+        getFilters: function getFilters() {
+            var _this = this;
+
+            axios.get(this.endpoint).then(function (response) {
+                _this.filters = response.data.data;
+            });
+        },
         activateFilter: function activateFilter(filter, key) {
             this.selectedFilters = Object.assign({}, this.selectedFilters, _defineProperty({}, filter, key));
             this.updateQueryString();
         },
+        clearFilter: function clearFilter(filter) {
+            this.selectedFilters = _.omit(this.selectedFilters, filter);
+            this.updateQueryString();
+        },
+        clearAllFilters: function clearAllFilters() {
+            this.selectedFilters = {};
+            this.updateQueryString();
+        },
         updateQueryString: function updateQueryString() {
             this.$router.replace({
-                query: _extends({}, this.selectedFilters, {
+                query: _extends({}, this.selectedFilters, { //spread out the object into multiple items
                     page: 1
                 })
             });
         }
     },
     mounted: function mounted() {
-        var _this = this;
-
-        axios.get(this.endpoint).then(function (response) {
-            _this.filters = response.data.data;
-        });
+        this.getFilters();
     }
 });
 
@@ -46749,41 +46771,79 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "filters" },
-    _vm._l(_vm.filters, function(map, filter) {
-      return _c(
-        "div",
-        { staticClass: "list-group" },
-        [
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item text-uppercase",
-              attrs: { href: "#" }
-            },
-            [_vm._v("\n            " + _vm._s(filter) + "\n        ")]
-          ),
-          _vm._v(" "),
-          _vm._l(map, function(key, value) {
-            return _c(
+    [
+      _vm.filtersInUse
+        ? _c("p", [
+            _c(
               "a",
               {
-                staticClass: "list-group-item",
-                class: { active: _vm.selectedFilters[filter] === key },
                 attrs: { href: "#" },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    _vm.activateFilter(filter, key)
+                    _vm.clearAllFilters($event)
                   }
                 }
               },
-              [_vm._v("\n            " + _vm._s(value) + "\n        ")]
+              [_vm._v("\n            Clear all filters\n        ")]
             )
-          })
-        ],
-        2
-      )
-    })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.filters, function(map, filter) {
+        return _c(
+          "div",
+          { staticClass: "list-group" },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item text-uppercase",
+                attrs: { href: "#" }
+              },
+              [_vm._v("\n            " + _vm._s(filter) + "\n        ")]
+            ),
+            _vm._v(" "),
+            _vm._l(map, function(key, value) {
+              return _c(
+                "a",
+                {
+                  staticClass: "list-group-item",
+                  class: { active: _vm.selectedFilters[filter] === key },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.activateFilter(filter, key)
+                    }
+                  }
+                },
+                [_vm._v("\n            " + _vm._s(value) + "\n        ")]
+              )
+            }),
+            _vm._v(" "),
+            _vm.selectedFilters[filter]
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "list-group-item list-group-item-warning",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.clearFilter(filter)
+                      }
+                    }
+                  },
+                  [_vm._v("\n            Clear the filter\n        ")]
+                )
+              : _vm._e()
+          ],
+          2
+        )
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []

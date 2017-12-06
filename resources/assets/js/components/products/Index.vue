@@ -13,7 +13,7 @@
                         <product v-for="product in chunk" :product="product" :key="product.id"></product>
                     </div>
                 </template>
-                <template v-else>
+                <template>
                     No product found
                 </template>
             </div>
