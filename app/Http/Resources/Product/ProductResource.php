@@ -16,10 +16,12 @@ class ProductResource extends Resource
     {
         return [
             'name' => $this->name,
+            'slug' => $this->slug,
             'description' => $this->description,
             'price' => $this->price,
             'subacategory' => $this->subcategory->formatted_name,
             'category' => $this->subcategory->category->formatted_name,
+            'category_slug' => $this->subcategory->category->slug,
             'brand' => $this->brand->formatted_name,
         ];
     }

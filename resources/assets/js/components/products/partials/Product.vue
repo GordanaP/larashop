@@ -8,7 +8,7 @@
                     <p>{{ product.description }}</p>
                     <p>${{ product.price }}</p>
                     <p>
-                        <a href="#" class="btn btn-primary" role="button">Shop now</a>
+                        <a :href="productUrl" class="btn btn-primary" role="button">Shop now</a>
                     </p>
                 </div>
             </div>
@@ -18,6 +18,11 @@
 
 <script>
     export default{
-        props: ['product'],
+        props : ['product'],
+        data () {
+            return {
+                productUrl: '/products/' + this.$route.params.category + '/' + this.product.slug
+            }
+        }
     }
 </script>

@@ -45763,7 +45763,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['product']
+    props: ['product'],
+    data: function data() {
+        return {
+            productUrl: '/products/' + this.$route.params.category + '/' + this.product.slug
+        };
+    }
 });
 
 /***/ }),
@@ -45801,30 +45806,23 @@ var render = function() {
             _vm._v(" "),
             _c("p", [_vm._v("$" + _vm._s(_vm.product.price))]),
             _vm._v(" "),
-            _vm._m(0, false, false)
+            _c("p", [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { href: _vm.productUrl, role: "button" }
+                },
+                [_vm._v("Shop now")]
+              )
+            ])
           ])
         ]
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { href: "#", role: "button" }
-        },
-        [_vm._v("Shop now")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -46705,13 +46703,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['endpoint'],
@@ -46728,6 +46719,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
     },
     methods: {
+        checkboxToggle: function checkboxToggle(e, filter, key) {
+            if (e.target.checked) {
+                this.activateFilter(filter, key);
+            } else {
+                this.clearFilter(filter);
+            }
+        },
         getFilters: function getFilters() {
             var _this = this;
 
@@ -46781,7 +46779,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    _vm.clearAllFilters($event)
+                    _vm.clearAllFilters()
                   }
                 }
               },
@@ -46805,39 +46803,21 @@ var render = function() {
             ),
             _vm._v(" "),
             _vm._l(map, function(key, value) {
-              return _c(
-                "a",
-                {
-                  staticClass: "list-group-item",
-                  class: { active: _vm.selectedFilters[filter] === key },
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.activateFilter(filter, key)
-                    }
-                  }
-                },
-                [_vm._v("\n            " + _vm._s(value) + "\n        ")]
-              )
-            }),
-            _vm._v(" "),
-            _vm.selectedFilters[filter]
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "list-group-item list-group-item-warning",
-                    attrs: { href: "#" },
+              return _c("div", { staticClass: "checkbox" }, [
+                _c("label", [
+                  _c("input", {
+                    attrs: { type: "checkbox", name: "products", id: value },
+                    domProps: { value: value },
                     on: {
                       click: function($event) {
-                        $event.preventDefault()
-                        _vm.clearFilter(filter)
+                        _vm.checkboxToggle($event, filter, key)
                       }
                     }
-                  },
-                  [_vm._v("\n            Clear the filter\n        ")]
-                )
-              : _vm._e()
+                  }),
+                  _vm._v(" " + _vm._s(value) + "\n            ")
+                ])
+              ])
+            })
           ],
           2
         )

@@ -2,7 +2,7 @@
     <div class="filters">
 
         <p v-if="filtersInUse">
-            <a href="#" @click.prevent="clearAllFilters">
+            <a href="#" @click.prevent="clearAllFilters()">
                 Clear all filters
             </a>
         </p>
@@ -12,20 +12,13 @@
             <a href="#" class="list-group-item text-uppercase">
                 {{ filter }}
             </a>
-            <a  href="#" class="list-group-item"
-                :class="{'active' : selectedFilters[filter] === key}"
-                v-for="key, value in map"
-                @click.prevent="activateFilter(filter, key)"
-            >
-                {{ value }}
-            </a>
-            <a  href="#" class="list-group-item list-group-item-warning"
-                v-if="selectedFilters[filter]" @click.prevent="clearFilter(filter)"
-            >
-                Clear the filter
-            </a>
+            <div class="checkbox" v-for="key, value in map">
+                <label>
+                    <input type="checkbox" :value="value" name="products" :id="value" @click="checkboxToggle($event, filter, key)"
+                    > {{ value }}
+                </label>
+            </div>
         </div>
-
     </div>
 </template>
 
@@ -37,15 +30,23 @@
         data() {
             return {
                 filters: {},
-                selectedFilters: _.omit(this.$route.query, ['page'])
+                selectedFilters: _.omit(this.$route.query, ['page']),
             }
         },
         computed: {
             filtersInUse () {
                 return ! _.isEmpty(this.selectedFilters)
-            }
+            },
         },
         methods: {
+            checkboxToggle(e, filter, key) {
+                if (e.target.checked) {
+                    this.activateFilter(filter, key)
+                }
+                else {
+                    this.clearFilter(filter)
+                }
+            },
             getFilters() {
                 axios.get(this.endpoint).then((response) => {
                     this.filters = response.data.data
